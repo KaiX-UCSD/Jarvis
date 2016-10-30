@@ -1,5 +1,30 @@
-extends layout
+doctype html
+head.
+  <title>JSSample</title>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+body.
+  <script type="text/javascript">
+      $(function() {
+          var params = {
+          };
 
-block content
-  h1= title
-  p Welcome to #{title}
+          $.ajax({
+              url: "https://api.projectoxford.ai/spid/v1.0/identificationProfiles?" + $.param(params),
+              beforeSend: function(xhrObj){
+                  // Request headers
+                  xhrObj.setRequestHeader("Content-Type","application/json");
+                  xhrObj.setRequestHeader("Ocp-Apim-Subscription-Key","d08580091e87457b8cf323a9de40f1b1");
+              },
+              type: "POST",
+              // Request body
+              data: JSON.stringify({"locale":"en-us"}),
+          })
+          .done(function(data) {
+              console.log(data); 
+              alert("success");
+          })
+          .fail(function() {
+              alert("error");
+          });
+      });
+  </script>
